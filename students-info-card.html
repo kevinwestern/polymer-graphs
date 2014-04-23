@@ -1,0 +1,19 @@
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="org-kw-barchart.html">
+
+<polymer-element name="students-info-card"
+    attributes="xData yData heading">
+  <template>
+    <org-kw-barchart heading="Some Data"
+        xData="{{ages}}" yData="{{heights}}"></org-kw-barchart>
+  </template>
+  <script>
+    Polymer('students-info-card', {
+      ready: function () {
+        this.ages = [5, 10, 15];
+        this.heights = [25, 50, 75];
+      }
+    });
+  </script>
+</polymer-element>
