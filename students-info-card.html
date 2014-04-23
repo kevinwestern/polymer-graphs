@@ -12,13 +12,18 @@
     Polymer('students-info-card', {
       ready: function() {
         var ages = [5, 10, 15];
-        var heights = [25, 50, 75];
-        this.xyData = ages.map(function(el, i) {
-          return {
-            x: el,
-            y: heights[i]
-          }
-        });
+        var heights = [1, 2, 3];
+        this.xyData = [];
+        var count = 1;
+        setInterval(function() {
+          this.xyData = ages.map(function(el, i) {
+            return {
+              x: el,
+              y: heights[i] * count
+            }
+          });
+          count++;
+        }.bind(this), 1000);
       }
     });
   </script>
