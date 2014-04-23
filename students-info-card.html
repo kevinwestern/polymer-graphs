@@ -6,13 +6,19 @@
     attributes="xData yData heading">
   <template>
     <org-kw-barchart heading="Some Data"
-        xData="{{ages}}" yData="{{heights}}"></org-kw-barchart>
+        xyData="{{xyData}}"></org-kw-barchart>
   </template>
   <script>
     Polymer('students-info-card', {
-      ready: function () {
-        this.ages = [5, 10, 15];
-        this.heights = [25, 50, 75];
+      ready: function() {
+        var ages = [5, 10, 15];
+        var heights = [25, 50, 75];
+        this.xyData = ages.map(function(el, i) {
+          return {
+            x: el,
+            y: heights[i]
+          }
+        });
       }
     });
   </script>

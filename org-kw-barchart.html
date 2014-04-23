@@ -1,27 +1,35 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
 
 <polymer-element name="org-kw-barchart"
-    attributes="xData yData heading">
+    attributes="xyData heading">
   <template>
     <h2>{{heading}}</h2>
     <div id="graph"></div>
   </template>
-  <script src="bower_components/d3/d3.js"></script>
+  <script src="bower_components/d3/d3.min.js"></script>
   <script>
     Polymer('org-kw-barchart', {
-      ready: function () {
+      ready: function() {
         this.heading = 'A graph';
-        var svg = d3.select(this.$.graph);
-        svg.selectAll('.bar').data(this.xData).
-          enter().
+        this.xyData = [];
+        this.svg = d3.select(this.$.graph);
+      },
+      xyDataChanged: function(previousData, newData) {
+        this.draw(newData);
+      },
+      draw: function(xyData) {
+        var bars = this.svg.selectAll('.bar').data(xyData);
+        bars.enter().
           append('div').
-          style('width', function(d, i) { return this.yData[i] + 'px' }.bind(this)).
           style('height', '20px').
           style('margin-top', '10px').
           attr('class', 'bar');
-      },
-      yDataChanged: function() {
-        console.log('changed!')
+
+        // update
+        bars.style('width', function(d) { return d.y + 'px'; });
+
+        // remove
+        bars.exit().remove();  
       }
     });
   </script>
