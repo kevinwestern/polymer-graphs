@@ -1,10 +1,10 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
 
 <polymer-element name="org-kw-barchart"
-    attributes="xyData heading">
+    attributes="xyData heading width height">
   <template>
     <h2>{{heading}}</h2>
-    <div id="graph"></div>
+    <svg id="graph"></svg>
   </template>
   <script src="bower_components/d3/d3.min.js"></script>
   <script>
@@ -12,23 +12,39 @@
       ready: function() {
         this.heading = 'A graph';
         this.xyData = [];
-        this.svg = d3.select(this.$.graph);
+        this.svg = d3.select(this.$.graph).append('g').
+            attr('width', this.width).
+            attr('height', this.height);
       },
       xyDataChanged: function(previousData, newData) {
         this.draw(newData);
       },
+
       draw: function(xyData) {
+        var xScale = d3.scale.linear().
+          domain([0, d3.max(xyData.map(function(d) { return d.y; }))]).
+          range([0, this.width]);
+        var yScale = d3.scale.ordinal().
+          domain(xyData.map(function(d) { return d.x; })).
+          rangeBands([0, this.height], .7);
         var bars = this.svg.selectAll('.bar').data(xyData);
+
+        // update existing
+        bars.
+          transition().
+          duration(900).
+          attr('width', function(d) { return xScale(d.y); });
+
+        // add new
         bars.enter().
-          append('div').
-          style('height', '20px').
-          style('margin-top', '10px').
-          attr('class', 'bar');
+          append('rect').
+          attr('x', 0).
+          attr('width', function(d) { return xScale(d.y); }).
+          attr('y', function(d) { return yScale(d.x); }).
+          attr('height', yScale.rangeBand()).
+          attr('class', 'bar');        
 
-        // update
-        bars.style('width', function(d) { return d.y + 'px'; });
-
-        // remove
+        // remove obsolete
         bars.exit().remove();  
       }
     });

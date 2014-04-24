@@ -6,7 +6,7 @@
     attributes="xData yData heading">
   <template>
     <org-kw-barchart heading="Some Data"
-        xyData="{{xyData}}"></org-kw-barchart>
+        xyData="{{xyData}}" width="450" height="300"></org-kw-barchart>
   </template>
   <script>
     Polymer('students-info-card', {
@@ -19,7 +19,7 @@
           this.xyData = ages.map(function(el, i) {
             return {
               x: el,
-              y: heights[i] * count
+              y: heights[i] * (10 * Math.random())
             }
           });
           count++;
