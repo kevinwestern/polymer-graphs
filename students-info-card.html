@@ -1,12 +1,26 @@
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="org-kw-barchart.html">
+<link rel="import" href="westernio-columnchart.html">
+<link rel="import" href="westernio-barchart.html">
 
 <polymer-element name="students-info-card"
     attributes="xData yData heading">
   <template>
-    <org-kw-barchart heading="Some Data"
-        xyData="{{xyData}}" width="450" height="300"></org-kw-barchart>
+    <style>
+      #container {
+        display: flex;
+      }
+      .graph {
+        width: 300px;
+        height: 200px;
+      }
+    </style>
+    <div id="container">
+      <westernio-barchart heading="Bar Chart" class="graph"
+        xyData="{{xyData}}" width="250" height="175"></westernio-barchart>
+      <westernio-columnchart heading="Column Chart" class="graph"
+        xyData="{{xyData}}" width="250" height="175"></westernio-columnchart>
+    </div>
   </template>
   <script>
     Polymer('students-info-card', {

@@ -1,6 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
 
-<polymer-element name="org-kw-barchart"
+<polymer-element name="westernio-barchart"
     attributes="xyData heading width height">
   <template>
     <h2>{{heading}}</h2>
@@ -8,9 +8,9 @@
   </template>
   <script src="bower_components/d3/d3.min.js"></script>
   <script>
-    Polymer('org-kw-barchart', {
+    Polymer('westernio-barchart', {
+      heading: 'A graph',
       ready: function() {
-        this.heading = 'A graph';
         this.xyData = [];
         this.svg = d3.select(this.$.graph).append('g').
             attr('width', this.width).
@@ -19,7 +19,6 @@
       xyDataChanged: function(previousData, newData) {
         this.draw(newData);
       },
-
       draw: function(xyData) {
         var xScale = d3.scale.linear().
           domain([0, d3.max(xyData.map(function(d) { return d.y; }))]).
